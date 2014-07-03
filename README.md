@@ -1,9 +1,9 @@
 comment
 =======
 
-To run, use the following commands in the project directory:
+To run, enter the following commands in the command line in the project directory:
 
 ```
-npm install
-npm start
+$ npm install
+$ npm start
 ```
