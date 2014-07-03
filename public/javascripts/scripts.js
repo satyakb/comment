@@ -1,5 +1,5 @@
 $(function() {
-	var comment_id = '53b48f7ea1593f0000c31862';
+	var comment_id = '53b5a05660409d00000b9cba';
 
 	$('#send').on('click', function(e) {
 		e.preventDefault();
@@ -95,8 +95,8 @@ $(function() {
 					container.append(comment);
 				} else {
 					comment.addClass('child');
-					// $('#' + pathArr[pathArr.length - 1]).append(comment);
-					container.append(comment);
+					$('#' + pathArr[pathArr.length - 1]).append(comment);
+					// container.append(comment);
 				}
 
 				if (children[key].children) {

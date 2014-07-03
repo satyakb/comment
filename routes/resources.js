@@ -17,10 +17,12 @@ router.get('/:resource_id/comments', function(req, res) {
 		} else {
 			var getTrees = [];
 
+			console.log('DOCS: ' + docs);
+
 			docs.forEach(function(root) {
 				getTrees.push(function(callback) {
 					root.getTree({
-						sort: {date_posted: -1},
+						sort: {date_posted: 1},
 					}, function(err, tree) {
 						callback(err, tree);
 					})
@@ -32,7 +34,7 @@ router.get('/:resource_id/comments', function(req, res) {
 					console.log('error getting comment tree');
 					return res.send(500);
 				} else {
-					console.log(trees);
+					console.log('TREES: ' + JSON.stringify(trees, null, 4));
 					return res.json(trees);
 				}
 			})
