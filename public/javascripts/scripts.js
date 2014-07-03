@@ -78,15 +78,39 @@ $(function() {
 		})
 	})
 
+	var container = $('.container');
+
 	function recurse(children) {
 		for (key in children) {
 			if (children.hasOwnProperty(key)) {
-				if (children[key].children) {
-					console.log(children[key].children);
-					recurse(children[key].children);
+				var path = children[key].path;
+				var pathArr = path.split(",");
+				var comment = $('<div/>', {
+						id: key,
+						text: children[key].text,
+						"data-path": path,
+					})
+				if (pathArr.length === 1) {
+					container.append(comment);
 				} else {
-					console.log(children[key]);
+					$('#' + pathArr[pathArr.length - 1]).append(comment);
 				}
+
+				if (children[key].children) {
+					recurse(children[key].children);
+				}
+
+				// if (children[key].children) {
+				// 	console.log(children[key]);
+				// 	var comment = $('<div/>', {
+				// 		id: key,
+				// 		text: children[key].text
+				// 	})
+				// 	container.append(comment);
+				// 	recurse(children[key].children);
+				// } else {
+				// 	console.log(children[key]);
+				// }
 			}
 		}
 	}
