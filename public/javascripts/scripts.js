@@ -1,14 +1,5 @@
 $(function() {
-	// $('.send-btn').on('click', function(e) {
-	// 	$.post('/users/message', {
-	// 		message: $('.send-input').val()
-	// 	}, function(data) {
-	// 		console.log(data.message);
-	// 	})
-	// 	e.preventDefault();
-	// })
-
-	var comment_id = '53b457c35112500000420711';
+	var comment_id = '53b48f3ca1593f0000c31860';
 
 	$('#send').on('click', function(e) {
 		e.preventDefault();
@@ -87,6 +78,19 @@ $(function() {
 		})
 	})
 
+	function recurse(children) {
+		for (key in children) {
+			if (children.hasOwnProperty(key)) {
+				if (children[key].children) {
+					console.log(children[key].children);
+					recurse(children[key].children);
+				} else {
+					console.log(children[key]);
+				}
+			}
+		}
+	}
+
 	$('#getComments').on('click', function(e) {
 		e.preventDefault();
 		$.ajax({
@@ -94,9 +98,22 @@ $(function() {
 			url: "resources/1/comments",
 			success: function(data) {
 				console.log(data);
-				// data.forEach(function(c) {
-				// 	$('.container').append('<div>' + c.text + '</div>');
-				// })
+				data.forEach(function(c) {
+					recurse(c);
+					// for (key in c) {
+					// 	if (c.hasOwnProperty(key)) {
+					// 		if (c[key].children) {
+					// 			console.log(c[key].children);
+					// 		} else {
+					// 			console.log(c);
+					// 		}
+					// 	}
+					// }
+					// if (c.children) {
+					// 	$('.container').append('<div>' + c.text + ' children: ' + c.children + '</div>');	
+					// }
+					// $('.container').append('<div>' + c.text + '</div>');
+				})
 			}
 		})
 	})

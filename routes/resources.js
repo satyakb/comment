@@ -15,10 +15,6 @@ router.get('/:resource_id/comments', function(req, res) {
 			console.log('error loading comments');
 			return res.send(500);
 		} else {
-			// console.log(docs);
-			var threadedDocs = [];
-			 
-			// Array to hold async tasks
 			var getTrees = [];
 
 			docs.forEach(function(root) {
@@ -94,15 +90,6 @@ router.put('/:resource_id/comments/:comment_id', function(req, res) {
 			})
 		}
 	})
-	// Comment.findByIdAndUpdate(new ObjectId(req.params.comment_id), {
-	// 	text: req.body.comment
-	// }, function(err, comment) {
-	// 	if (err) {
-	// 		console.log('Error editting comment: ' + err);
-	// 		return res.send(500);
-	// 	}
-	// 	return res.send(200);
-	// })
 });
 
 /* DELETE Comment delete */
@@ -122,15 +109,6 @@ router.delete('/:resource_id/comments/:comment_id', function(req, res) {
 			})
 		}
 	})
-	// Comment.findByIdAndUpdate(new ObjectId(req.params.comment_id), {
-	// 	deleted: true
-	// }, function(err, comment) {
-	// 	if (err) {
-	// 		console.log('Error deleting comment: ' + err);
-	// 		return res.send(500);
-	// 	}
-	// 	return res.send(200);
-	// })
 })
 
 /* PUT Comment vote */
