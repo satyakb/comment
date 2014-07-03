@@ -1,5 +1,5 @@
 $(function() {
-	var comment_id = '53b48f3ca1593f0000c31860';
+	var comment_id = '53b48f7ea1593f0000c31862';
 
 	$('#send').on('click', function(e) {
 		e.preventDefault();
@@ -82,6 +82,7 @@ $(function() {
 
 	function recurse(children) {
 		for (key in children) {
+			// console.log(key);
 			if (children.hasOwnProperty(key)) {
 				var path = children[key].path;
 				var pathArr = path.split(",");
@@ -93,24 +94,14 @@ $(function() {
 				if (pathArr.length === 1) {
 					container.append(comment);
 				} else {
-					$('#' + pathArr[pathArr.length - 1]).append(comment);
+					comment.addClass('child');
+					// $('#' + pathArr[pathArr.length - 1]).append(comment);
+					container.append(comment);
 				}
 
 				if (children[key].children) {
 					recurse(children[key].children);
 				}
-
-				// if (children[key].children) {
-				// 	console.log(children[key]);
-				// 	var comment = $('<div/>', {
-				// 		id: key,
-				// 		text: children[key].text
-				// 	})
-				// 	container.append(comment);
-				// 	recurse(children[key].children);
-				// } else {
-				// 	console.log(children[key]);
-				// }
 			}
 		}
 	}
@@ -124,19 +115,6 @@ $(function() {
 				console.log(data);
 				data.forEach(function(c) {
 					recurse(c);
-					// for (key in c) {
-					// 	if (c.hasOwnProperty(key)) {
-					// 		if (c[key].children) {
-					// 			console.log(c[key].children);
-					// 		} else {
-					// 			console.log(c);
-					// 		}
-					// 	}
-					// }
-					// if (c.children) {
-					// 	$('.container').append('<div>' + c.text + ' children: ' + c.children + '</div>');	
-					// }
-					// $('.container').append('<div>' + c.text + '</div>');
 				})
 			}
 		})

@@ -19,7 +19,9 @@ router.get('/:resource_id/comments', function(req, res) {
 
 			docs.forEach(function(root) {
 				getTrees.push(function(callback) {
-					root.getTree(function(err, tree) {
+					root.getTree({
+						sort: {date_posted: -1},
+					}, function(err, tree) {
 						callback(err, tree);
 					})
 				})
