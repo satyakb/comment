@@ -69,10 +69,15 @@ var data = [
 }
 ]
 
-$(function() {
-	var app = angular.module('myapp', ['ngRoute']);
+var app = angular.module('myapp', ['ngRoute']);
 
-	// app.controller = ('CommentController', function() {
-	// 	this.comments = data;
-	// })
+app.controller('CommentController', function() {
+	var dataArr = new Array();
+	data.forEach(function(c) {
+		for (key in c) {
+			dataArr.push(c[key]);
+		}
+	});
+	this.comments = dataArr;
+	console.log(dataArr)
 })

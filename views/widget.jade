@@ -14,6 +14,9 @@ block content
   button(id='novote') Novote
   button(id='getComments') Get Comments
   .container(ng-app="myapp")
-    //- ul.comment-list(ng-controller="CommentController as comments")
-      //- li.parent(ng-repeat="comment in comments")
-        //- | {{comment.53b5a02a60409d00000b9cb9}}
+    .comment-list(ng-controller="CommentController as comments")
+      .parent(ng-repeat="c in comments")
+        .something(ng-repeat="comm in c")
+          | {{comm.text}}
+          .child(ng-show="comm.children")
+            | {{comm.children}}
