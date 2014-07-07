@@ -13,10 +13,5 @@ block content
   button(id='downvote') Downvote
   button(id='novote') Novote
   button(id='getComments') Get Comments
-  .container(ng-app="myapp")
-    .comment-list(ng-controller="CommentController as comments")
-      .parent(ng-repeat="c in comments")
-        .something(ng-repeat="comm in c")
-          | {{comm.text}}
-          .child(ng-show="comm.children")
-            | {{comm.children}}
+  .container
+    comment-list

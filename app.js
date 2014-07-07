@@ -17,6 +17,7 @@ var routes = require('./routes/index');
 var resources = require('./routes/resources');
 var users = require('./routes/users');
 var widget = require('./routes/widget');
+// var partials = require('./routes/partials');
 
 var app = express();
 
@@ -36,6 +37,8 @@ app.use('/', routes);
 app.use('/resources', resources);
 app.use('/users', users);
 app.use('/widget', widget);
+
+// app.use('/partials', partials);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

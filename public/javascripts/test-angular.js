@@ -1,3 +1,5 @@
+(function() {
+
 var data = [
 {
 	"53b5a02a60409d00000b9cb9": {
@@ -69,15 +71,48 @@ var data = [
 }
 ]
 
-var app = angular.module('myapp', ['ngRoute']);
 
-app.controller('CommentController', function() {
-	var dataArr = new Array();
-	data.forEach(function(c) {
-		for (key in c) {
-			dataArr.push(c[key]);
-		}
-	});
+var cmApp = angular.module('myapp', ['ngRoute']);
+
+cmApp.controller('CommentController', function() {
+ 	var dataArr = data;
+	// var dataArr = new Array();
+	// data.forEach(function(c) {
+	// 	for (key in c) {
+	// 		dataArr.push(c[key]);
+	// 	}
+	// });
 	this.comments = dataArr;
 	console.log(dataArr)
 })
+
+cmApp.directive('commentList', function() {
+	return {
+		restrict: 'E',
+		templateUrl: 'partials/comments',
+		// controller: function() {
+		// 	var dataArr = data;
+		// 	this.comments = dataArr;
+		// 	console.log(dataArr)
+		// },
+		// controllerAs: 'cmntCtrl'
+	}
+})
+
+cmApp.directive('childList', function() {
+	return {
+		restrict: 'E',
+		templateUrl: 'partials/children',
+		scope: {
+			child: '='
+		}
+		// controller: function() {
+		// 	var dataArr = data;
+		// 	this.comments = dataArr;
+		// 	console.log(dataArr)
+		// },
+		// controllerAs: 'cmntCtrl'
+	}
+})
+
+})();
