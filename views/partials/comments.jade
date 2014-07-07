@@ -2,4 +2,4 @@
   .parent(ng-repeat="comm in cmntCtrl.comments")
     .something(ng-repeat="c in comm")
       | {{c.text}}
-      child-list(child="c.children" ng-show="c.children")
+      .child(ng-repeat="child in c.children" ng-include=" '/views/partials/children' ")

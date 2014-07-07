@@ -8,6 +8,12 @@ router.get('/', function(req, res) {
 	res.render('index', { title: 'Express' });
 });
 
+router.get('/views/partials/:name', function(req, res) {
+	var name = req.params.name;
+	console.log('NAME: ' + name);
+	res.render('partials/' + name);
+})
+
 router.get('/partials/:name', function(req, res) {
 	var name = req.params.name;
 	console.log('NAME: ' + name);
