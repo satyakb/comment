@@ -119,4 +119,16 @@ $(function() {
 			}
 		})
 	})
+
+	// $('.container').on('click', '.test-btn', function(e) {
+	// 	e.preventDefault();
+	// 	var id = $(this).parent().attr('id');
+	// 	console.log(id);
+	// 	$.post('/resources/1/comments?parent_id=' + id, {
+	// 		comment: $('#textbox').val()
+	// 	}, function(data) {
+	// 		$('#textbox').val('');
+	// 		console.log(data);
+	// 	})
+	// })
 })

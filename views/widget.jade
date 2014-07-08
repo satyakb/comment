@@ -14,4 +14,4 @@ block content
   button(id='novote') Novote
   button(id='getComments') Get Comments
   .container
-    comment-list
+    ul.comment-list(ng-controller="CommentController as cmntCtrl" ng-include=" '/views/partials/root' ")

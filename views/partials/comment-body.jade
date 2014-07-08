@@ -1,0 +1,5 @@
+//- div
+| {{c.text}}
+button.reply-btn(ng-click="addComment(c.id)") Reply
+//- button.del-btn(ng-click="delComment(c.id") Delete
+ul.child-list( ng-include=" c.children ? '/views/partials/children' : null " )

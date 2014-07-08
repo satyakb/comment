@@ -1,3 +1,2 @@
-div
-  | {{child.text}}
-  .child(ng-repeat="child in child.children" ng-include=" '/views/partials/children' ")
+li.child(ng-repeat="c in c.children")
+  .something(id="{{c.id}}" ng-include=" '/views/partials/comment-body' ")

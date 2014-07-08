@@ -1,5 +1,0 @@
-.comment-list(ng-controller="CommentController as cmntCtrl")
-  .parent(ng-repeat="comm in cmntCtrl.comments")
-    .something(ng-repeat="c in comm")
-      | {{c.text}}
-      .child(ng-repeat="child in c.children" ng-include=" '/views/partials/children' ")

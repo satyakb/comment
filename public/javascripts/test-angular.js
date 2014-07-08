@@ -74,7 +74,7 @@ var data = [
 
 var cmApp = angular.module('myapp', ['ngRoute']);
 
-cmApp.controller('CommentController', function() {
+cmApp.controller('CommentController', ['$scope' ,'$http', function($scope, $http) {
  	var dataArr = data;
 	// var dataArr = new Array();
 	// data.forEach(function(c) {
@@ -82,9 +82,39 @@ cmApp.controller('CommentController', function() {
 	// 		dataArr.push(c[key]);
 	// 	}
 	// });
-	this.comments = dataArr;
-	console.log(dataArr)
-})
+	$scope.comments = [];
+	$scope.addComment = function(id) {
+		// var id = $(btn).parent().attr('id');
+		console.log(id);
+		$http.post('/resources/1/comments?parent_id=' + id, {
+			comment: $('#textbox').val()
+		}).then(function(result) {
+			$('#textbox').val('');
+			getComments();
+			console.log(result)
+		})
+	}
+	// $scope.delComment = function(id) {
+	// 	$http.post('/resources/1/comments?parent_id=' + id, {
+	// 		comment: $('#textbox').val()
+	// 	}).then(function(result) {
+	// 		$('#textbox').val('');
+	// 		getComments();
+	// 		console.log(result)
+	// 	})
+	// }
+	function getComments() {
+		$http.get('/resources/1/comments')
+			.then(function(result) {
+				$scope.comments = result.data;
+			});
+	}
+
+	getComments()
+
+	// this.comments = dataArr;
+	// console.log(dataArr)
+}])
 
 cmApp.directive('commentList', function() {
 	return {
