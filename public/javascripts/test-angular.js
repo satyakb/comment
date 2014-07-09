@@ -1,148 +1,112 @@
 (function() {
 
-var data = [
-{
-	"53b5a02a60409d00000b9cb9": {
-		"_id": "53b5a02a60409d00000b9cb9",
-		"path": "",
-		"text": "parent",
-		"resource_id": 1,
-		"user_id": 99,
-		"__v": 0,
-		"_w": 0,
-		"parentId": null,
-		"flags": [],
-		"votes": [],
-		"date_posted": "2014-07-03T18:25:46.837Z",
-		"depth": 0,
-		"id": "53b5a02a60409d00000b9cb9",
-		"children": {
-			"53b5a05660409d00000b9cba": {
-				"_id": "53b5a05660409d00000b9cba",
-				"path": ",53b5a02a60409d00000b9cb9",
-				"text": "child",
-				"resource_id": 1,
-				"user_id": 99,
-				"__v": 0,
-				"_w": 0,
-				"parentId": "53b5a02a60409d00000b9cb9",
-				"flags": [],
-				"votes": [],
-				"date_posted": "2014-07-03T18:26:30.121Z",
-				"depth": 1,
-				"id": "53b5a05660409d00000b9cba",
-				"children": {
-					"53b5a09f60409d00000b9cbc": {
-						"_id": "53b5a09f60409d00000b9cbc",
-						"path": ",53b5a02a60409d00000b9cb9,53b5a05660409d00000b9cba",
-						"text": "child2",
-						"resource_id": 1,
-						"user_id": 99,
-						"__v": 0,
-						"_w": 0,
-						"parentId": "53b5a05660409d00000b9cba",
-						"flags": [],
-						"votes": [],
-						"date_posted": "2014-07-03T18:27:43.950Z",
-						"depth": 2,
-						"id": "53b5a09f60409d00000b9cbc"
+	var cmApp = angular.module('myapp', ['ngRoute']);
+
+	cmApp.controller('CommentController', ['$scope' ,'$http', function($scope, $http) {
+		$scope.comments = [];
+		$scope.addComment = function(c) {
+			var id = c.id;
+			if ($('#textbox').val() !== '') {
+				$http.post('/resources/1/comments?parent_id=' + id, {
+					comment: $('#textbox').val()
+				}).then(function(result) {
+					$('#textbox').val('');
+					var newComm = result.data;
+					if (!c.children) {
+						c.children = {};
 					}
-				}
+					c.children[newComm._id] = newComm;
+					console.log(c)
+				})
 			}
 		}
-	}
-},
-{
-	"53b5a07d60409d00000b9cbb": {
-		"_id": "53b5a07d60409d00000b9cbb",
-		"path": "",
-		"text": "parent2",
-		"resource_id": 1,
-		"user_id": 99,
-		"__v": 0,
-		"_w": 0,
-		"parentId": null,
-		"flags": [],
-		"votes": [],
-		"date_posted": "2014-07-03T18:27:09.048Z",
-		"depth": 0,
-		"id": "53b5a07d60409d00000b9cbb"
-	}
-}
-]
+/***************************************************************************************************************/
+/************************************ NEED TO FIGURE OUT CURRENT USER STUFF ************************************/
+/***************************************************************************************************************/
+		$scope.upVoteComment = function(c) {
+			var id = c.id;
+			console.log(id);
 
+			c.voteCount++;
 
-var cmApp = angular.module('myapp', ['ngRoute']);
+			$http.put("/resources/1/comments/" + id + "/vote?vote_status=up")
+				.then(function(result) {
+					console.log(result)
+				})
+		}
+		$scope.downVoteComment = function(c) {
+			var id = c.id;
+			console.log(id);
 
-cmApp.controller('CommentController', ['$scope' ,'$http', function($scope, $http) {
- 	var dataArr = data;
-	// var dataArr = new Array();
-	// data.forEach(function(c) {
-	// 	for (key in c) {
-	// 		dataArr.push(c[key]);
-	// 	}
-	// });
-	$scope.comments = [];
-	$scope.addComment = function(id) {
-		// var id = $(btn).parent().attr('id');
-		console.log(id);
-		$http.post('/resources/1/comments?parent_id=' + id, {
-			comment: $('#textbox').val()
-		}).then(function(result) {
-			$('#textbox').val('');
-			getComments();
-			console.log(result)
-		})
-	}
-	// $scope.delComment = function(id) {
-	// 	$http.post('/resources/1/comments?parent_id=' + id, {
-	// 		comment: $('#textbox').val()
-	// 	}).then(function(result) {
-	// 		$('#textbox').val('');
-	// 		getComments();
-	// 		console.log(result)
-	// 	})
-	// }
-	function getComments() {
+			c.voteCount--;
+
+			$http.put("/resources/1/comments/" + id + "/vote?vote_status=down")
+				.then(function(result) {
+					console.log(result)
+				})
+		}
+
+		$scope.delComment = function(id) {
+			$http.post('/resources/1/comments?parent_id=' + id, {
+				comment: $('#textbox').val()
+			}).then(function(result) {
+				$('#textbox').val('');
+				getComments();
+				console.log(result)
+			})
+		}
+
+		$scope.hide = function(c) {
+			var id = c.id;
+			if (!('hidden' in c)) {
+				c.hidden = true;
+			} else {
+				c.hidden = !c.hidden;
+			}
+
+			if (c.hidden) {
+				$('#' + id + " .child-list").hide();
+			} else {
+				$('#' + id + " .child-list").show();
+			}
+		}
+
 		$http.get('/resources/1/comments')
 			.then(function(result) {
 				$scope.comments = result.data;
+				var comments = $scope.comments;
+
+				// console.log('COMMENTS:', comments)
+
+				function voteCounter(comment) {
+					// console.log(comment);
+					for(comm in comment) {
+						// console.log(comment[comm])
+						var c = comment[comm];
+						var votes = c.votes;
+						c.voteCount = 0;
+
+						if (votes !== []) {
+							votes.forEach(function(vote) {
+								c.voteCount += vote.vote_status;
+							})
+						}
+
+						if ('children' in comment[comm]) {
+							voteCounter(comment[comm].children)
+						}
+					}
+				}
+
+				comments.forEach(function(comm) {
+					// console.log(comm);
+					voteCounter(comm);
+				})
+
+				// console.log('FINAL:', $scope.comments)
 			});
-	}
 
-	getComments()
-
-	// this.comments = dataArr;
-	// console.log(dataArr)
-}])
-
-cmApp.directive('commentList', function() {
-	return {
-		restrict: 'E',
-		templateUrl: 'partials/comments',
-		// controller: function() {
-		// 	var dataArr = data;
-		// 	this.comments = dataArr;
-		// 	console.log(dataArr)
-		// },
-		// controllerAs: 'cmntCtrl'
-	}
-})
-
-cmApp.directive('childList', function() {
-	return {
-		restrict: 'E',
-		templateUrl: 'partials/children',
-		scope: {
-			child: '='
-		}
-		// controller: function() {
-		// 	var dataArr = data;
-		// 	this.comments = dataArr;
-		// 	console.log(dataArr)
-		// },
-		// controllerAs: 'cmntCtrl'
-	}
-})
+		
+	}])
 
 })();

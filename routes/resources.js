@@ -59,6 +59,10 @@ router.post('/:resource_id/comments', function(req, res) {
 					if (err) {
 						console.log('Error appending child: ' + err);
 						return res.send(500);
+					} else {
+						console.log('got here!')
+						console.log(comm);
+						return res.json(comm);
 					}
 				});
 			} else {
@@ -71,10 +75,14 @@ router.post('/:resource_id/comments', function(req, res) {
 			if (err) {
 				console.log('Error posting comment: ' + err);
 				return res.send(500);
+			} else {
+				console.log('whooo')
+				console.log(comm);
+				return res.json(comm);
 			}
 		});
 	}
-	return res.send(200);
+	// return res.send(200);
 });
 
 /* PUT Comment edit */
