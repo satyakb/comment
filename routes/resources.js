@@ -44,6 +44,10 @@ router.get('/:resource_id/comments', function(req, res) {
 
 /* POST comment */
 router.post('/:resource_id/comments', function(req, res) {
+	if (req.body.comment === '') {
+		console.log('comment was empty string');
+		return res.send(400);
+	}
 	var newComment = new Comment({
 		text: req.body.comment,
 		resource_id: req.params.resource_id,
@@ -60,8 +64,6 @@ router.post('/:resource_id/comments', function(req, res) {
 						console.log('Error appending child: ' + err);
 						return res.send(500);
 					} else {
-						console.log('got here!')
-						console.log(comm);
 						return res.json(comm);
 					}
 				});
@@ -76,13 +78,10 @@ router.post('/:resource_id/comments', function(req, res) {
 				console.log('Error posting comment: ' + err);
 				return res.send(500);
 			} else {
-				console.log('whooo')
-				console.log(comm);
 				return res.json(comm);
 			}
 		});
 	}
-	// return res.send(200);
 });
 
 /* PUT Comment edit */
@@ -130,6 +129,10 @@ router.put('/:resource_id/comments/:comment_id/vote', function(req, res) {
 	if (voteStatus === 'up') voteStatus = 1;
 	else if (voteStatus === 'down') voteStatus = -1;
 	else if (voteStatus === 'none') voteStatus = 0;
+	else {
+		console.log('bad vote param');
+		return res.send(400);
+	}
 
 	Comment.findById(
 		new ObjectId(req.params.comment_id), function(err, comment) {

@@ -1,0 +1,13 @@
+{
+  "name": "learnExpress",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kowabungappl/comment",
+  "authors": [
+    "Satya Bodduluri <skbodduluri@gmail.com>"
+  ],
+  "dependencies": {
+    "angular": "~1.2.19",
+    "angular-route": "~1.2.19",
+    "jQuery": "~1.11.1"
+  }
+}

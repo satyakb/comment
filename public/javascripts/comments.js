@@ -71,15 +71,15 @@
 				})
 		}
 
-		// $scope.delComment = function(id) {
-		// 	$http.post('/resources/1/comments?parent_id=' + id, {
-		// 		comment: $('#textbox').val()
-		// 	}).then(function(result) {
-		// 		$('#textbox').val('');
-		// 		getComments();
-		// 		console.log(result)
-		// 	})
-		// }
+		$scope.delComment = function(c) {
+			var id = c._id;
+			$http.delete('/resources/1/comments/' + id)
+				.then(function(result) {
+					c.text = '[deleted]'
+					c.deleted = true;
+					console.log(result)
+				})
+		}
 
 		$scope.editComment = function(c) {
 			var id = c._id;
@@ -104,8 +104,10 @@
 
 			if (c.hidden) {
 				$('#' + id + " .child-list").hide();
+				$('#' + id + " .btn-hide").html('Show');
 			} else {
 				$('#' + id + " .child-list").show();
+				$('#' + id + " .btn-hide").html('Hide');
 			}
 		}
 
@@ -123,6 +125,7 @@
 						var c = comment[comm];
 						var votes = c.votes;
 						c.voteCount = 0;
+						if (c.deleted) c.text = '[deleted]';
 
 						if (votes !== []) {
 							votes.forEach(function(vote) {
@@ -137,7 +140,6 @@
 				}
 
 				comments.forEach(function(comm) {
-					// console.log(comm);
 					voteCounter(comm);
 				})
 			});
