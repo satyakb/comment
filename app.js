@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 //Instantiate database
-var db = mongoose.connect('mongodb://localhost/learning-backend');
+// var db = mongoose.connect('mongodb://localhost/learning-backend');
+var db = mongoose.connect('mongodb://heroku_app27247298:d6jhrgbn17k543nq807m2du0nr@ds061238.mongolab.com:61238/heroku_app27247298');
 
 //Add models
 require('./models/comment.js');
