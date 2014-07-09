@@ -3,27 +3,53 @@
 	var cmntApp = angular.module('cmntApp', ['ngRoute']);
 
 	cmntApp.controller('CommentController', ['$scope' ,'$http', function($scope, $http) {
+		
 		$scope.comments = [];
-		$scope.addComment = function(c) {
+
+		$scope.sendComment = function() {
+			if ($('#textbox').val() !== '') {
+				$http.post('/resources/1/comments', {
+					comment: $('#textbox').val()
+				}).then(function(result) {
+
+					$('#textbox').val('');
+
+					var newComm = {};
+					newComm[result.data._id] = result.data;
+					newComm[result.data._id].voteCount = 0;
+
+					$scope.comments.push(newComm);
+
+				})
+			}
+		}
+
+		$scope.addReply = function(c) {
 			var id = c._id;
 			if ($('#textbox').val() !== '') {
 				$http.post('/resources/1/comments?parent_id=' + id, {
 					comment: $('#textbox').val()
 				}).then(function(result) {
+
 					$('#textbox').val('');
+
 					var newComm = result.data;
 					newComm.voteCount = 0;
+					
 					if (!c.children) {
 						c.children = {};
 					}
+
 					c.children[newComm._id] = newComm;
-					console.log(c)
+					
 				})
 			}
 		}
+
 /***************************************************************************************************************/
 /************************************ NEED TO FIGURE OUT CURRENT USER STUFF ************************************/
 /***************************************************************************************************************/
+		
 		$scope.upVoteComment = function(c) {
 			var id = c._id;
 
@@ -64,19 +90,12 @@
 					c.text = $('#textbox').val();
 					$('#textbox').val('');
 					console.log(result);
-					// var newComm = result.data;
-					// newComm.voteCount = 0;
-					// if (!c.children) {
-					// 	c.children = {};
-					// }
-					// c.children[newComm._id] = newComm;
-					// console.log(c)
 				})
 			}
 		}
 
 		$scope.hide = function(c) {
-			var id = c.id;
+			var id = c._id;
 			if (!('hidden' in c)) {
 				c.hidden = true;
 			} else {

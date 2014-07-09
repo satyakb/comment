@@ -5,6 +5,6 @@ block content
   p Welcome to #{title}
   //- form(id="comment-form" action='/resources/1/comments' method='POST')
   textarea(name='comment' id='textbox')
-  button(id='send') Send
-  .container
-    ul.comment-list(ng-controller="CommentController as cmntCtrl" ng-include=" '/views/partials/root' ")
+  .container( ng-controller="CommentController as cmntCtrl" )
+    button(ng-click="sendComment()") Send
+    ul.comment-list( ng-include=" '/views/partials/root' " )

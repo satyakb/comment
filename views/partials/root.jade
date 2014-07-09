@@ -1,2 +1,2 @@
 li.root(ng-repeat="comm in comments")
-  .something(ng-repeat="c in comm" id="{{c.id}}" ng-include=" '/views/partials/comment-body' ")
+  .something(ng-repeat="c in comm" id="{{c._id}}" ng-include=" '/views/partials/comment-body' ")
