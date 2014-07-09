@@ -1,12 +1,12 @@
+button.btn-hide(ng-click="hide(c)" ng-disabled="!c.children") Hide
 .comment-text(ng-hide="c.deleted")
   | {{c.text}} --- {{c.voteCount}}
 .comment-text(ng-show="c.deleted")
   | {{c.text}}
-.comment-buttons
-  button(ng-click="addReply(c)" ng-hide="c.deleted") Reply
+.comment-buttons(ng-hide="c.deleted")
+  button(ng-click="addReply(c)") Reply
   button(ng-click="upVoteComment(c)") Upvote
-  button(ng-click="downVoteComment(c)") Downvote
+  button(ng-click="downVoteComment(c)" ) Downvote
   button(ng-click="editComment(c)") Edit
   button(ng-click="delComment(c)") Delete
-  button.btn-hide(ng-click="hide(c)" ng-show="c.children") Hide
 ul.child-list( ng-include=" c.children ? '/views/partials/children' : null " )
