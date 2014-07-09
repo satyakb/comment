@@ -1,17 +1,18 @@
 (function() {
 
-	var cmApp = angular.module('myapp', ['ngRoute']);
+	var cmntApp = angular.module('cmntApp', ['ngRoute']);
 
-	cmApp.controller('CommentController', ['$scope' ,'$http', function($scope, $http) {
+	cmntApp.controller('CommentController', ['$scope' ,'$http', function($scope, $http) {
 		$scope.comments = [];
 		$scope.addComment = function(c) {
-			var id = c.id;
+			var id = c._id;
 			if ($('#textbox').val() !== '') {
 				$http.post('/resources/1/comments?parent_id=' + id, {
 					comment: $('#textbox').val()
 				}).then(function(result) {
 					$('#textbox').val('');
 					var newComm = result.data;
+					newComm.voteCount = 0;
 					if (!c.children) {
 						c.children = {};
 					}
@@ -24,8 +25,7 @@
 /************************************ NEED TO FIGURE OUT CURRENT USER STUFF ************************************/
 /***************************************************************************************************************/
 		$scope.upVoteComment = function(c) {
-			var id = c.id;
-			console.log(id);
+			var id = c._id;
 
 			c.voteCount++;
 
@@ -35,8 +35,7 @@
 				})
 		}
 		$scope.downVoteComment = function(c) {
-			var id = c.id;
-			console.log(id);
+			var id = c._id;
 
 			c.voteCount--;
 
@@ -103,7 +102,7 @@
 					voteCounter(comm);
 				})
 
-				// console.log('FINAL:', $scope.comments)
+				console.log('FINAL:', $scope.comments)
 			});
 
 		
