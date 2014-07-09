@@ -1,8 +1,18 @@
 #!/usr/bin/env node
 var debug = require('debug')('learnExpress');
+var mongoose = require('mongoose');
 var app = require('../app');
 
-app.set('port', process.env.PORT || 3000);
+// Set default node environment to development
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Application Config
+var config = require('../config/config');
+
+//Instantiate database
+var db = mongoose.connect(config.mongo.uri);
+
+app.set('port', config.port);
 
 var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);

@@ -4,11 +4,6 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-
-//Instantiate database
-// var db = mongoose.connect('mongodb://localhost/learning-backend');
-var db = mongoose.connect('mongodb://heroku_app27247298:d6jhrgbn17k543nq807m2du0nr@ds061238.mongolab.com:61238/heroku_app27247298');
 
 //Add models
 require('./models/comment.js');
@@ -18,7 +13,6 @@ var routes = require('./routes/index');
 var resources = require('./routes/resources');
 var users = require('./routes/users');
 var widget = require('./routes/widget');
-// var partials = require('./routes/partials');
 
 var app = express();
 
@@ -38,8 +32,6 @@ app.use('/', routes);
 app.use('/resources', resources);
 app.use('/users', users);
 app.use('/widget', widget);
-
-// app.use('/partials', partials);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
