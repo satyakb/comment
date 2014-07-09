@@ -45,14 +45,34 @@
 				})
 		}
 
-		$scope.delComment = function(id) {
-			$http.post('/resources/1/comments?parent_id=' + id, {
-				comment: $('#textbox').val()
-			}).then(function(result) {
-				$('#textbox').val('');
-				getComments();
-				console.log(result)
-			})
+		// $scope.delComment = function(id) {
+		// 	$http.post('/resources/1/comments?parent_id=' + id, {
+		// 		comment: $('#textbox').val()
+		// 	}).then(function(result) {
+		// 		$('#textbox').val('');
+		// 		getComments();
+		// 		console.log(result)
+		// 	})
+		// }
+
+		$scope.editComment = function(c) {
+			var id = c._id;
+			if ($('#textbox').val() !== '') {
+				$http.put('/resources/1/comments/' + id, {
+					comment: $('#textbox').val()
+				}).then(function(result) {
+					c.text = $('#textbox').val();
+					$('#textbox').val('');
+					console.log(result);
+					// var newComm = result.data;
+					// newComm.voteCount = 0;
+					// if (!c.children) {
+					// 	c.children = {};
+					// }
+					// c.children[newComm._id] = newComm;
+					// console.log(c)
+				})
+			}
 		}
 
 		$scope.hide = function(c) {
@@ -101,8 +121,6 @@
 					// console.log(comm);
 					voteCounter(comm);
 				})
-
-				console.log('FINAL:', $scope.comments)
 			});
 
 		

@@ -6,12 +6,5 @@ block content
   //- form(id="comment-form" action='/resources/1/comments' method='POST')
   textarea(name='comment' id='textbox')
   button(id='send') Send
-  button(id='reply') Reply
-  button(id='edit') Edit
-  button(id='delete') Delete
-  button(id='upvote') Upvote
-  button(id='downvote') Downvote
-  button(id='novote') Novote
-  button(id='getComments') Get Comments
   .container
     ul.comment-list(ng-controller="CommentController as cmntCtrl" ng-include=" '/views/partials/root' ")

@@ -4,5 +4,6 @@ button.reply-btn(ng-click="addComment(c)") Reply
 button.upvote-btn(ng-click="upVoteComment(c)") Upvote
 button.down-btn(ng-click="downVoteComment(c)") Downvote
 button.hide-btn(ng-click="hide(c)" ng-show="c.children") Hide
+button.down-btn(ng-click="editComment(c)") Edit
 //- button.del-btn(ng-click="delComment(c.id") Delete
 ul.child-list( ng-include=" c.children ? '/views/partials/children' : null " )
