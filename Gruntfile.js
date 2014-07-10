@@ -3,17 +3,17 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		concurrent: {
 			dev: {
-				tasks: ['nodemon:dev', 'watch'],
+				tasks: ['nodemon:dev', 'watch:livereload'],
 				options: {
 					logConcurrentOutput: true
 				}
 			},
-			staging: {
-				tasks: ['nodemon:staging'],
-				options: {
-					logConcurrentOutput: true
-				}
-			}
+			// staging: {
+			// 	tasks: ['nodemon:staging'],
+			// 	options: {
+			// 		logConcurrentOutput: true
+			// 	}
+			// }
 		},
 		compass: {
 			dev: {
@@ -32,7 +32,8 @@ module.exports = function(grunt) {
 				files: [
 					'public/stylesheets/*.{css,less}',
 					'public/javascripts/*.js',
-					'views/**/*.jade'
+					'views/**/*.jade',
+					'.rebooted'
 				],
 				options: { livereload: true }
 			}
@@ -46,17 +47,39 @@ module.exports = function(grunt) {
 						NODE_ENV: 'development'
 					},
 					watch: ['.'],
-				}
-			},
-			staging: {
-				script: './bin/www',
-				options: {
-					env: {
-						PORT: 3000,
-						NODE_ENV: 'staging'
+					callback: function(nodemon) {
+
+						nodemon.on('log', function (event) {
+							console.log(event.colour);
+						});
+
+						// opens browser on initial server start
+						// nodemon.on('config:update', function () {
+						// 	// Delay before server listens on port
+						// 	setTimeout(function() {
+						// 		require('open')('http://localhost:3000');
+						// 	}, 1000);
+						// });
+
+						// refreshes browser when server reboots
+						nodemon.on('restart', function () {
+							// Delay before server listens on port
+							setTimeout(function() {
+								require('fs').writeFileSync('.rebooted', 'rebooted');
+							}, 1000);
+						});
 					}
 				}
-			}
+			},
+			// staging: {
+			// 	script: './bin/www',
+			// 	options: {
+			// 		env: {
+			// 			PORT: 3000,
+			// 			NODE_ENV: 'staging'
+			// 		}
+			// 	}
+			// }
 		}
 	});
 
@@ -65,6 +88,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-nodemon');
 	grunt.loadNpmTasks('grunt-concurrent');
 
-	grunt.registerTask('staging', ['compass', 'concurrent:staging']);
+	// grunt.registerTask('staging', ['compass', 'concurrent:staging']);
 	grunt.registerTask('default', ['compass', 'concurrent:dev']);
 }

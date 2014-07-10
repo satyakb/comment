@@ -2,8 +2,7 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
-  //- form(id="comment-form" action='/resources/1/comments' method='POST')
+  p Welcome to next level #{title}
   textarea(name='comment' id='textbox')
   .container( ng-controller="CommentController as cmntCtrl" )
     button(ng-click="sendComment()") Send

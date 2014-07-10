@@ -5,7 +5,7 @@ var Comment = mongoose.model('Comment');
 
 /* GET widget template. */
 router.get('/', function(req, res) {
-	res.render('widget', { title: 'Express' });
+	res.render('widget', { title: 'cmnts' });
 });
 
 module.exports = router;
