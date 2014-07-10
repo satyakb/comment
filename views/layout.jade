@@ -3,10 +3,14 @@ html(ng-app="cmntApp")
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/foundation.css')
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
   body
     block content
-  script(src="bower_components/jQuery/dist/jquery.min.js")
+  script(src="bower_components/jquery/dist/jquery.min.js")
   script(src="bower_components/angular/angular.min.js")
   script(src="bower_components/angular-route/angular-route.min.js")
+  script(src="bower_components/foundation/js/foundation.min.js")
   script(src="/javascripts/comments.js")
   script(src="/javascripts/scripts.js")
+  script(src="//localhost:35729/livereload.js")

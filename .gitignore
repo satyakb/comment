@@ -3,3 +3,5 @@ node_modules
 bower_components
 notes
 npm-debug.log
+.sass-cache
+public/stylesheets/*.css

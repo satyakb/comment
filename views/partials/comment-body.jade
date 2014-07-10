@@ -1,6 +1,7 @@
 button.btn-hide(ng-click="hide(c)" ng-disabled="!c.children") Hide
 .comment-text(ng-hide="c.deleted")
-  | {{c.text}} --- {{c.voteCount}}
+  | {{c.voteCount}}
+  | {{c.text}} --- {{c.date_posted | date : 'medium'}}
 .comment-text(ng-show="c.deleted")
   | {{c.text}}
 .comment-buttons(ng-hide="c.deleted")

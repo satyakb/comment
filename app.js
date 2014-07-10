@@ -29,7 +29,7 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Load JS from bower
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use('/bower_components',  express.static(path.join(__dirname, '/bower_components')));
 
 app.use('/', routes);
 app.use('/resources', resources);
