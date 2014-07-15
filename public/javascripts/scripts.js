@@ -1,5 +1,6 @@
 $(function() {
-
+	$(document).foundation();
+	
 	$('#delete').on('click', function(e) {
 		e.preventDefault();
 		$.ajax({

@@ -3,7 +3,11 @@ extends layout
 block content
   h1= title
   p Welcome to next level #{title}
-  textarea(name='comment' id='textbox')
-  .container( ng-controller="CommentController as cmntCtrl" )
-    button(ng-click="sendComment()") Send
+  hr
+  .row
+    .column.small-12
+      textarea(name='comment' class='newText')
+    .column.small-12
+      a.button.small.radius.btn-send(ng-click="sendComment()") Send
+  .container
     ul.comment-list( ng-include=" '/views/partials/root' " )

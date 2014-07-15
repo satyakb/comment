@@ -1,6 +1,8 @@
 (function() {
 
-	var cmntApp = angular.module('cmntApp', ['ngRoute']);
+	var cmntApp = angular.module('cmntApp', ['ngRoute', 'angularMoment']);
+
+	cmntApp.constant('angularMomentConfig', {});
 
 	cmntApp.controller('CommentController', ['$scope' ,'$http', function($scope, $http) {
 		
@@ -24,26 +26,35 @@
 			}
 		}
 
-		$scope.addReply = function(c) {
-			var id = c._id;
-			if ($('#textbox').val() !== '') {
-				$http.post('/resources/1/comments?parent_id=' + id, {
-					comment: $('#textbox').val()
-				}).then(function(result) {
-
-					$('#textbox').val('');
-
-					var newComm = result.data;
-					newComm.voteCount = 0;
-					
-					if (!c.children) {
-						c.children = {};
-					}
-
-					c.children[newComm._id] = newComm;
-					
-				})
+		$scope.showReply = function(c) {
+			if (!('replying' in c)) {
+				c.replying = true;
+			} else {
+				c.replying = !c.replying;
 			}
+		}
+
+		$scope.addReply = function(e) {
+			console.log('test');
+			console.log(e);
+			// if ($('#textbox').val() !== '') {
+			// 	$http.post('/resources/1/comments?parent_id=' + id, {
+			// 		comment: $('#textbox').val()
+			// 	}).then(function(result) {
+
+			// 		$('#textbox').val('');
+
+			// 		var newComm = result.data;
+			// 		newComm.voteCount = 0;
+					
+			// 		if (!c.children) {
+			// 			c.children = {};
+			// 		}
+
+			// 		c.children[newComm._id] = newComm;
+					
+			// 	})
+			// }
 		}
 
 /***************************************************************************************************************/
@@ -103,11 +114,9 @@
 			}
 
 			if (c.hidden) {
-				$('#' + id + " .child-list").hide();
-				$('#' + id + " .btn-hide").html('Show');
+				// $('#' + id + " .btn-hide").html('+');
 			} else {
-				$('#' + id + " .child-list").show();
-				$('#' + id + " .btn-hide").html('Hide');
+				// $('#' + id + " .btn-hide").html('-');
 			}
 		}
 
@@ -125,6 +134,7 @@
 						var c = comment[comm];
 						var votes = c.votes;
 						c.voteCount = 0;
+						c.date_posted = new Date(c.date_posted);
 						if (c.deleted) c.text = '[deleted]';
 
 						if (votes !== []) {

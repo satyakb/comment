@@ -3,29 +3,23 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		concurrent: {
 			dev: {
-				tasks: ['nodemon:dev', 'watch:livereload'],
+				tasks: ['nodemon:dev', 'watch'],
 				options: {
 					logConcurrentOutput: true
 				}
-			},
-			// staging: {
-			// 	tasks: ['nodemon:staging'],
-			// 	options: {
-			// 		logConcurrentOutput: true
-			// 	}
-			// }
+			}
 		},
 		compass: {
 			dev: {
 				options: {
-					sassDir: 'bower_components/foundation/scss/',
+					sassDir: 'public/stylesheets',
 					cssDir: 'public/stylesheets',
 				}
 			}
 		},
 		watch: {
 			compass: {
-				files: ['bower_components/foundation/scss/*.scss'],
+				files: ['public/stylesheets/*.scss'],
 				tasks: ['compass'],
 			}, 
 			livereload: {
@@ -70,16 +64,7 @@ module.exports = function(grunt) {
 						});
 					}
 				}
-			},
-			// staging: {
-			// 	script: './bin/www',
-			// 	options: {
-			// 		env: {
-			// 			PORT: 3000,
-			// 			NODE_ENV: 'staging'
-			// 		}
-			// 	}
-			// }
+			}
 		}
 	});
 
@@ -88,6 +73,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-nodemon');
 	grunt.loadNpmTasks('grunt-concurrent');
 
-	// grunt.registerTask('staging', ['compass', 'concurrent:staging']);
 	grunt.registerTask('default', ['compass', 'concurrent:dev']);
 }

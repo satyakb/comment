@@ -2,14 +2,16 @@ doctype html
 html(ng-app="cmntApp")
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/foundation.css')
-    link(rel='stylesheet', href='/stylesheets/normalize.css')
-  body
+    //- link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/main.css')
+    //- link(rel='stylesheet', href='/stylesheets/normalize.css')
+  body( ng-controller="CommentController as cmntCtrl" )
     block content
   script(src="bower_components/jquery/dist/jquery.min.js")
   script(src="bower_components/angular/angular.min.js")
   script(src="bower_components/angular-route/angular-route.min.js")
+  script(src="bower_components/moment/min/moment.min.js")
+  script(src="bower_components/angular-moment/angular-moment.min.js")
   script(src="bower_components/foundation/js/foundation.min.js")
   script(src="/javascripts/comments.js")
   script(src="/javascripts/scripts.js")

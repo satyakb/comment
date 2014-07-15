@@ -1,13 +1,28 @@
-button.btn-hide(ng-click="hide(c)" ng-disabled="!c.children") Hide
-.comment-text(ng-hide="c.deleted")
-  | {{c.voteCount}}
-  | {{c.text}} --- {{c.date_posted | date : 'medium'}}
-.comment-text(ng-show="c.deleted")
-  | {{c.text}}
-.comment-buttons(ng-hide="c.deleted")
-  button(ng-click="addReply(c)") Reply
-  button(ng-click="upVoteComment(c)") Upvote
-  button(ng-click="downVoteComment(c)" ) Downvote
-  button(ng-click="editComment(c)") Edit
-  button(ng-click="delComment(c)") Delete
-ul.child-list( ng-include=" c.children ? '/views/partials/children' : null " )
+.comment-header
+  .btn-hide(ng-click="hide(c)" ng-disabled="!c.children") {{ c.hidden ? '+' : '-' }}
+  .comment-metadata
+    span.comment-user Username 
+    span.comment-vert-separator | 
+    span.comment-vote-count {{c.voteCount}} votes 
+    span.comment-vert-separator | 
+    span.comment-date(am-time-ago="c.date_posted")
+.comment-container(ng-hide="c.hidden")
+  .comment-body(ng-hide="c.deleted")
+    .comment-text
+      | {{c.text}}
+    .comment-options
+      a(ng-click="upVoteComment(c)") Up 
+      span.comment-vert-separator | 
+      a(ng-click="downVoteComment(c)" ) Down 
+      span.comment-vert-separator | 
+      a(ng-click="showReply(c)") Reply 
+      span.comment-vert-separator | 
+      a(ng-click="editComment(c)") Edit 
+      span.comment-vert-separator |  
+      a(ng-click="delComment(c)") Delete
+      form.comment-test(ng-show="c.replying" ng-submit="addReply($event)")
+        textarea(name='comment' class='newText')
+        input(type="submit" value="Submit")
+  .comment-deleted.comment-body(ng-show="c.deleted")
+    | {{c.text}}
+  ul.child-list( ng-include=" c.children ? '/views/partials/children' : null " )
