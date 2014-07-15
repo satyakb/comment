@@ -26,97 +26,12 @@
 			}
 		}
 
-		$scope.showReply = function(c) {
-			if (!('replying' in c)) {
-				c.replying = true;
-			} else {
-				c.replying = !c.replying;
-			}
-		}
-
-		$scope.addReply = function(e) {
-			console.log('test');
-			console.log(e);
-			// if ($('#textbox').val() !== '') {
-			// 	$http.post('/resources/1/comments?parent_id=' + id, {
-			// 		comment: $('#textbox').val()
-			// 	}).then(function(result) {
-
-			// 		$('#textbox').val('');
-
-			// 		var newComm = result.data;
-			// 		newComm.voteCount = 0;
-					
-			// 		if (!c.children) {
-			// 			c.children = {};
-			// 		}
-
-			// 		c.children[newComm._id] = newComm;
-					
-			// 	})
-			// }
-		}
-
-/***************************************************************************************************************/
-/************************************ NEED TO FIGURE OUT CURRENT USER STUFF ************************************/
-/***************************************************************************************************************/
-		
-		$scope.upVoteComment = function(c) {
-			var id = c._id;
-
-			c.voteCount++;
-
-			$http.put("/resources/1/comments/" + id + "/vote?vote_status=up")
-				.then(function(result) {
-					console.log(result)
-				})
-		}
-		$scope.downVoteComment = function(c) {
-			var id = c._id;
-
-			c.voteCount--;
-
-			$http.put("/resources/1/comments/" + id + "/vote?vote_status=down")
-				.then(function(result) {
-					console.log(result)
-				})
-		}
-
-		$scope.delComment = function(c) {
-			var id = c._id;
-			$http.delete('/resources/1/comments/' + id)
-				.then(function(result) {
-					c.text = '[deleted]'
-					c.deleted = true;
-					console.log(result)
-				})
-		}
-
-		$scope.editComment = function(c) {
-			var id = c._id;
-			if ($('#textbox').val() !== '') {
-				$http.put('/resources/1/comments/' + id, {
-					comment: $('#textbox').val()
-				}).then(function(result) {
-					c.text = $('#textbox').val();
-					$('#textbox').val('');
-					console.log(result);
-				})
-			}
-		}
-
 		$scope.hide = function(c) {
 			var id = c._id;
 			if (!('hidden' in c)) {
 				c.hidden = true;
 			} else {
 				c.hidden = !c.hidden;
-			}
-
-			if (c.hidden) {
-				// $('#' + id + " .btn-hide").html('+');
-			} else {
-				// $('#' + id + " .btn-hide").html('-');
 			}
 		}
 
@@ -155,6 +70,96 @@
 			});
 
 		
+	}])
+
+	cmntApp.controller('OptionsController', ['$scope' ,'$http', function($scope, $http) {
+		$scope.replying = false;
+		$scope.editting = false;
+		$scope.replyText = '';
+		$scope.editText = '';
+
+		$scope.showReply = function(c) {
+			$scope.editting = false;
+			$scope.replying = !$scope.replying;
+		}
+
+		$scope.showEdit = function(c) {
+			$scope.replying = false;
+			$scope.editText = c.text;
+			$scope.editting = !$scope.editting;
+		}
+
+		/***************************************************************************************************************/
+		/************************************ NEED TO FIGURE OUT CURRENT USER STUFF ************************************/
+		/***************************************************************************************************************/
+				
+		$scope.upVoteComment = function(c) {
+			var id = c._id;
+
+			c.voteCount++;
+
+			$http.put("/resources/1/comments/" + id + "/vote?vote_status=up")
+				.then(function(result) {
+					console.log(result)
+				})
+		}
+		$scope.downVoteComment = function(c) {
+			var id = c._id;
+
+			c.voteCount--;
+
+			$http.put("/resources/1/comments/" + id + "/vote?vote_status=down")
+				.then(function(result) {
+					console.log(result)
+				})
+		}
+
+		$scope.delComment = function(c) {
+			var id = c._id;
+			$http.delete('/resources/1/comments/' + id)
+				.then(function(result) {
+					c.text = '[deleted]'
+					c.deleted = true;
+					console.log(result)
+				})
+		}
+
+		$scope.editSubmit = function(c) {
+			var id = c._id;
+			if ($scope.editText) {
+				$http.put('/resources/1/comments/' + id, {
+					comment: $scope.editText
+				}).then(function(result) {
+					c.text = $scope.editText;
+					$scope.editText = '';
+					$scope.editting = false;
+					console.log(result);
+				})
+			}
+		}
+
+		$scope.replySubmit = function(c) {
+			var id = c._id;
+			if ($scope.replyText) {
+				$http.post('/resources/1/comments?parent_id=' + id, {
+					comment: $scope.replyText,
+				}).then(function(result) {
+
+					$scope.replyText = '';
+					$scope.replying = false;
+
+					var newComm = result.data;
+					newComm.voteCount = 0;
+					
+					if (!c.children) {
+						c.children = {};
+					}
+
+					c.children[newComm._id] = newComm;
+					
+				})
+			}
+		}
 	}])
 
 })();

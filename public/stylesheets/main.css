@@ -8504,37 +8504,37 @@ body {
 
 /* line 23, main.scss */
 .root, .child {
-  padding: 10px;
-  margin: 15px 0;
+  padding: 10px 10px 0;
+  margin: 15px 0 0;
 }
 
-/* line 33, main.scss */
+/* line 29, main.scss */
 .btn-send {
   float: right;
 }
 
-/* line 37, main.scss */
+/* line 33, main.scss */
 .btn-hide {
   margin-right: 10px;
   display: inline-block;
 }
 
-/* line 42, main.scss */
+/* line 38, main.scss */
 .comment-vert-separator {
   color: #DDD;
 }
 
-/* line 46, main.scss */
+/* line 42, main.scss */
 .comment-metadata {
   display: inline-block;
 }
 
-/* line 50, main.scss */
+/* line 46, main.scss */
 .comment-container {
   margin-left: 20px;
 }
 
-/* line 54, main.scss */
+/* line 50, main.scss */
 ul, li {
   list-style-type: none;
   padding: 0;

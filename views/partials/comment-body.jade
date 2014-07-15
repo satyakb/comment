@@ -10,19 +10,24 @@
   .comment-body(ng-hide="c.deleted")
     .comment-text
       | {{c.text}}
-    .comment-options
+    .comment-options(ng-controller="OptionsController")
       a(ng-click="upVoteComment(c)") Up 
       span.comment-vert-separator | 
       a(ng-click="downVoteComment(c)" ) Down 
       span.comment-vert-separator | 
       a(ng-click="showReply(c)") Reply 
       span.comment-vert-separator | 
-      a(ng-click="editComment(c)") Edit 
+      a(ng-click="showEdit(c)") Edit 
       span.comment-vert-separator |  
       a(ng-click="delComment(c)") Delete
-      form.comment-test(ng-show="c.replying" ng-submit="addReply($event)")
-        textarea(name='comment' class='newText')
-        input(type="submit" value="Submit")
+      .comment-reply(ng-show="replying")
+        form.comment-test(ng-submit="replySubmit(c)")
+          textarea(name='comment' class='newText' ng-model="replyText")
+          input(type="submit" value="Submit")
+      .comment-edit(ng-show="editting")
+        form.comment-test(ng-submit="editSubmit(c)")
+          textarea(name='comment' class='newText' ng-model="editText")
+          input(type="submit" value="Submit")
   .comment-deleted.comment-body(ng-show="c.deleted")
     | {{c.text}}
   ul.child-list( ng-include=" c.children ? '/views/partials/children' : null " )
